@@ -22,24 +22,42 @@ int ESP8266::moduleTest()
     //Receive the reply from the module
     //If the reply is "OK" return 1
     //If there is an error return 0
+    if(esplink.find("OK")) return 1;
+    else return 0;    
 }
 
 void ESP8266::setMode(int mode)
 {
     //Send AT command to set the mode
     //of the ESP8266
+    cmd = MODE;
+    cmd += String(mode);
+    sendCom(cmd);
 }
 
-void ESP8266::setAccessPoint(String SSID, String password)
+void ESP8266::createAccessPoint(String SSID, String password)
 {
     //Set the parameters of the ESP8266
     //in access point mode
+    cmd = SET_AP_PARAMS;
+    cmd += "\"";
+    cmd += SSID;
+    cmd += "\"";
+    cmd += ",\"";
+    cmd += password;
+    cmd += "\"";
+    cmd += String(2);
+    cmd += String(1);
+    sendCom(cmd);
 }
 
-void ESP8266::listAccessPoints()
+String ESP8266::listAccessPoints()
 {
     //Send AT command to list access points
+    sendCom(LIST_AP);
     //Get list of access points as a string
+    
     //Return string
+    
 }
 
