@@ -15,6 +15,15 @@ void ESP8266::sendCom(char[] com)
     esplink.println(com);
 }
 
+int ESP8266::moduleTest()
+{
+    //Send the test signal
+    sendCom(TST);
+    //Receive the reply from the module
+    //If the reply is "OK" return 1
+    //If there is an error return 0
+}
+
 void ESP8266::setMode(int mode)
 {
     //Send AT command to set the mode
