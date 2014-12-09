@@ -19,7 +19,7 @@ public:
     //RX goes to TX of module
     //TX goes to RX of module
     ESP8266(int RX=10, int TX=11);
-    void setMode(int MODE);
+    void setMode(int mode);
     void setAccessPoint(String SSID, String password);
     String listAccessPoints();
 
