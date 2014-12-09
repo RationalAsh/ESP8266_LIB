@@ -42,6 +42,10 @@ public:
     void sendCom(String com);
     //Checks if module is receiving serial data
     int moduleTest();
+    //Reset the module
+    void resetModule();
+    //Get the firmware version of the module
+    String getFirmware();
     //Set the mode in which the module operates
     void setMode(int mode);
     //Set the parameters of the access point created by the module
@@ -52,8 +56,16 @@ public:
     void setConnectionMode(int mode);
     //Connect to an access point
     void joinAccessPoint(String SSID, String password);
-    //Connect to a TCP server
+    //Get IP address of the module
+    String getIP();
+    //Connect to a TCP/UDP server
     void connectToServer(String ip, int connectionNumber);
+    //Start a TCP server
+    void startServer(int port);
+    //Stop the server
+    void stopServer();
+    //Send data through connection
+    void sendData(int connection, String data);
 
 
 private:

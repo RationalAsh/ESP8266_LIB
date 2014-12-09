@@ -10,7 +10,7 @@ ESP8266::ESP8266(int RX=10, int TX=11)
     esplink.begin(9600);
 }
 
-void ESP8266::sendCom(char[] com)
+void ESP8266::sendCom(String com)
 {
     esplink.println(com);
 }
@@ -31,6 +31,7 @@ void ESP8266::setMode(int mode)
     //Send AT command to set the mode
     //of the ESP8266
     cmd = MODE;
+    cmd += "=";
     cmd += String(mode);
     sendCom(cmd);
 }
@@ -40,7 +41,7 @@ void ESP8266::createAccessPoint(String SSID, String password)
     //Set the parameters of the ESP8266
     //in access point mode
     cmd = SET_AP_PARAMS;
-    cmd += "\"";
+    cmd += "=\"";
     cmd += SSID;
     cmd += "\"";
     cmd += ",\"";
@@ -61,3 +62,18 @@ String ESP8266::listAccessPoints()
     
 }
 
+void ESP8266::setConnectionMode(int mode)
+{
+    //Send the AT command to set the connection mode
+    cmd = MODE;
+    cmd += "=";
+    if(mode == SINGLE) cmd += String(SINGLE);
+    else if(mode == MULTIPLE) cmd += String(MULTIPLE);
+    sendCom(cmd);
+}
+
+void ESP8266::joinAccessPoint(String SSID, String password);
+{
+    //Send the AT command to join Access point
+    cmd = JOIN_AP;
+    
