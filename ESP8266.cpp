@@ -2,17 +2,33 @@
 #include "ESP8266.h"
 #include <SoftwareSerial.h>
 
-ESP8266::ESP8266(int RX=10, int TX=11)
+ESP8266::ESP8266(int RX=10, int TX=11, int mode=0, int baud=9600)
 {
-    //Set up software serial on pins 10 and 11
-    esplink = new SoftwareSerial(RX, TX);
-    //Set baud rate to 9600
-    esplink.begin(9600);
+    if(mode == SOFTWARE_SERIAL)
+    {
+	//Set up software serial on pins 10 and 11
+	esplink = new SoftwareSerial(RX, TX);
+	//Set baud rate to 9600
+	esplink.begin(baud);
+    }
+    else if(mode == HARDWARE_SERIAL)
+    {
+	Serial.begin(baud);
+    }
+    _mode = mode;
 }
 
 void ESP8266::sendCom(String com)
 {
-    esplink.println(com);
+    if(_mode == SOFTWARE_SERIAL) esplink.println(com);
+    if(_mode == HARDWARE_SERIAL) Serial.println(com);
+}
+
+String ESP8266::getData()
+{
+    if(_mode == SOFTWARE_SERIAL)
+    {
+    }
 }
 
 int ESP8266::moduleTest()
@@ -43,8 +59,8 @@ void ESP8266::createAccessPoint(String SSID, String password)
     cmd = SET_AP_PARAMS;
     cmd += "=\"";
     cmd += SSID;
-    cmd += "\"";
-    cmd += ",\"";
+    cmd += "\",\"";
+    //cmd += ",\"";
     cmd += password;
     cmd += "\"";
     cmd += String(2);
@@ -76,4 +92,13 @@ void ESP8266::joinAccessPoint(String SSID, String password);
 {
     //Send the AT command to join Access point
     cmd = JOIN_AP;
-    
+    cmd += "=\"";
+    cmd += SSID;
+    cmd += "\",\"";
+    cmd += password;
+    cmd += "\"";
+
+    //If successful return 1
+    if(esplink.find("OK")) return 1;
+    else return 0;
+}

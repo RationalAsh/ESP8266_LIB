@@ -38,6 +38,7 @@ public:
     //RX goes to TX of module
     //TX goes to RX of module
     ESP8266(int RX=10, int TX=11);
+    ESP8266(int baudrate);
     //Send a command to the module
     void sendCom(String com);
     //Checks if module is receiving serial data
@@ -55,7 +56,7 @@ public:
     //Set multiple or single connections
     void setConnectionMode(int mode);
     //Connect to an access point
-    void joinAccessPoint(String SSID, String password);
+    int joinAccessPoint(String SSID, String password);
     //Get IP address of the module
     String getIP();
     //Connect to a TCP/UDP server
